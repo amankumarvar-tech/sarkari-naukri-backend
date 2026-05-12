@@ -3,8 +3,7 @@ const fs = require('fs');
 const path = require('path');
 
 const app = express();
-const PORT = process.env.PORT || 3000;
-
+const PORT = process.env.PORT || 8080;
 // ── CHANGE KARO APNA PASSWORD ─────────────────────────────
 const ADMIN_USER = process.env.ADMIN_USER || 'admin';
 const ADMIN_PASS = process.env.ADMIN_PASS || 'sarkari@2026';
@@ -14,9 +13,9 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 const DATA_DIR = path.join(__dirname, 'data');
 const FILES = {
-  jobs:       path.join(DATA_DIR, 'jobs.json'),
+  jobs: path.join(DATA_DIR, 'jobs.json'),
   admitcards: path.join(DATA_DIR, 'admitcards.json'),
-  results:    path.join(DATA_DIR, 'results.json'),
+  results: path.join(DATA_DIR, 'results.json'),
   answerkeys: path.join(DATA_DIR, 'answerkeys.json'),
 };
 
@@ -25,7 +24,7 @@ if (!fs.existsSync(DATA_DIR)) fs.mkdirSync(DATA_DIR);
 function readData(file) {
   if (!fs.existsSync(file)) return [];
   try { return JSON.parse(fs.readFileSync(file, 'utf8')); }
-  catch(e) { return []; }
+  catch (e) { return []; }
 }
 function writeData(file, data) {
   fs.writeFileSync(file, JSON.stringify(data, null, 2));
@@ -68,11 +67,11 @@ app.get('/api/admin/verify', (req, res) => {
 app.get('/api/search', (req, res) => {
   const q = (req.query.q || '').toLowerCase().trim();
   if (!q) return res.json([]);
-  const labels = { jobs:'Job', admitcards:'Admit Card', results:'Result', answerkeys:'Answer Key' };
+  const labels = { jobs: 'Job', admitcards: 'Admit Card', results: 'Result', answerkeys: 'Answer Key' };
   const results = [];
   Object.entries(FILES).forEach(([type, file]) => {
     readData(file).forEach(item => {
-      if ((item.title+' '+(item.org||'')+' '+(item.description||'')).toLowerCase().includes(q)) {
+      if ((item.title + ' ' + (item.org || '') + ' ' + (item.description || '')).toLowerCase().includes(q)) {
         results.push({ ...item, _type: type, _typeLabel: labels[type] });
       }
     });
@@ -109,9 +108,9 @@ function setupCRUD(route, file) {
   });
 }
 
-setupCRUD('jobs',       FILES.jobs);
+setupCRUD('jobs', FILES.jobs);
 setupCRUD('admitcards', FILES.admitcards);
-setupCRUD('results',    FILES.results);
+setupCRUD('results', FILES.results);
 setupCRUD('answerkeys', FILES.answerkeys);
 
 app.get('/admin', (req, res) => res.sendFile(path.join(__dirname, 'public', 'admin.html')));
