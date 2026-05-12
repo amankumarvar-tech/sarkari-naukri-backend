@@ -1,0 +1,891 @@
+<!DOCTYPE html>
+<html lang="hi">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SarkariNaukri.in - Sarkari Result, Jobs & Admit Card 2026</title>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;600;700&family=Hind:wght@400;500;600&display=swap"
+    rel="stylesheet">
+  <script src="jobs-data.js"></script>
+  <style>
+    :root {
+      --saffron: #FF6B00;
+      --dark-saffron: #E05A00;
+      --green: #138808;
+      --dark-green: #0D6606;
+      --navy: #003087;
+      --dark-navy: #001F5B;
+      --gold: #FFD700;
+      --red: #CC0000;
+      --bg: #F2F2F2;
+      --white: #FFFFFF;
+      --border: #DDDDDD;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box
+    }
+
+    body {
+      font-family: 'Hind', sans-serif;
+      background: var(--bg);
+      color: #1A1A1A;
+      font-size: 14px
+    }
+
+    .tricolor {
+      height: 4px;
+      background: linear-gradient(90deg, #FF6B00 33%, white 33%, white 66%, #138808 66%)
+    }
+
+    .topbar {
+      background: var(--dark-navy);
+      color: #FFD700;
+      font-size: 12px;
+      padding: 4px 0;
+      text-align: center
+    }
+
+    header {
+      background: linear-gradient(135deg, var(--navy), var(--dark-navy) 60%, #0D6606);
+      padding: 10px 0;
+      border-bottom: 4px solid var(--saffron)
+    }
+
+    .header-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 12px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px
+    }
+
+    .logo-area {
+      display: flex;
+      align-items: center;
+      gap: 12px
+    }
+
+    .logo-icon {
+      width: 58px;
+      height: 58px;
+      background: white;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 28px;
+      border: 3px solid var(--gold);
+      flex-shrink: 0
+    }
+
+    .logo-text h1 {
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 26px;
+      font-weight: 700;
+      color: var(--gold)
+    }
+
+    .logo-text p {
+      color: #B0C4DE;
+      font-size: 11px
+    }
+
+    .header-stats {
+      display: flex;
+      gap: 12px
+    }
+
+    .stat-box {
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 215, 0, 0.3);
+      border-radius: 6px;
+      padding: 6px 12px;
+      text-align: center
+    }
+
+    .stat-box .num {
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--gold);
+      display: block
+    }
+
+    .stat-box .lbl {
+      color: #B0C4DE;
+      font-size: 11px
+    }
+
+    nav {
+      background: var(--saffron);
+      border-bottom: 3px solid var(--dark-saffron);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3)
+    }
+
+    .nav-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      display: flex;
+      flex-wrap: wrap;
+      padding: 0 8px
+    }
+
+    nav a {
+      color: white;
+      text-decoration: none;
+      font-family: 'Rajdhani', sans-serif;
+      font-weight: 600;
+      font-size: 14px;
+      padding: 8px 14px;
+      display: block
+    }
+
+    nav a:hover,
+    nav a.active {
+      background: var(--dark-saffron)
+    }
+
+    .container {
+      max-width: 1100px;
+      margin: 12px auto;
+      padding: 0 10px;
+      display: grid;
+      grid-template-columns: 1fr 290px;
+      gap: 12px
+    }
+
+    .notice-ticker {
+      background: #FFF3CC;
+      border: 1px solid var(--gold);
+      border-radius: 6px;
+      padding: 6px 12px;
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      grid-column: 1/-1
+    }
+
+    .notice-ticker .label {
+      background: var(--red);
+      color: white;
+      font-weight: 700;
+      font-size: 12px;
+      padding: 2px 8px;
+      border-radius: 3px;
+      white-space: nowrap
+    }
+
+    .search-panel {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      margin-bottom: 14px;
+      flex-wrap: wrap
+    }
+
+    .search-panel input {
+      flex: 1;
+      min-width: 220px;
+      padding: 10px 14px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      font-size: 14px
+    }
+
+    .search-panel button {
+      padding: 10px 14px;
+      border-radius: 8px;
+      border: none;
+      font-size: 14px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: opacity 0.2s
+    }
+
+    .search-panel .search-btn {
+      background: var(--navy);
+      color: #fff
+    }
+
+    .search-panel .reset-btn {
+      background: #fff;
+      color: var(--navy);
+      border: 1px solid var(--navy)
+    }
+
+    .search-panel button:hover {
+      opacity: 0.9
+    }
+
+    .section-box {
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      overflow: hidden;
+      margin-bottom: 12px;
+      box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08)
+    }
+
+    .section-header {
+      background: linear-gradient(90deg, var(--navy), var(--dark-navy));
+      color: white;
+      padding: 8px 14px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between
+    }
+
+    .section-header h2 {
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 15px;
+      font-weight: 700
+    }
+
+    .section-header .view-all {
+      color: var(--gold);
+      text-decoration: none;
+      font-size: 12px;
+      font-weight: 600
+    }
+
+    .section-header.green {
+      background: linear-gradient(90deg, var(--dark-green), #0A5C02)
+    }
+
+    .section-header.red {
+      background: linear-gradient(90deg, var(--red), #AA0000)
+    }
+
+    .section-header.orange {
+      background: linear-gradient(90deg, var(--saffron), var(--dark-saffron))
+    }
+
+    .job-list {
+      list-style: none
+    }
+
+    .job-list li {
+      border-bottom: 1px solid #EFEFEF;
+      transition: background 0.15s
+    }
+
+    .job-list li:last-child {
+      border-bottom: none
+    }
+
+    .job-list li:hover {
+      background: #FFF8E1
+    }
+
+    .job-row {
+      display: flex;
+      align-items: flex-start;
+      gap: 6px;
+      padding: 8px 12px;
+      text-decoration: none;
+      color: inherit;
+      cursor: pointer;
+      width: 100%
+    }
+
+    .job-row::before {
+      content: "▶";
+      color: var(--saffron);
+      font-size: 10px;
+      margin-top: 3px;
+      flex-shrink: 0
+    }
+
+    .job-title {
+      color: var(--navy);
+      font-size: 13px;
+      font-weight: 500;
+      flex: 1;
+      line-height: 1.4
+    }
+
+    .job-row:hover .job-title {
+      color: var(--saffron);
+      text-decoration: underline
+    }
+
+    .job-meta {
+      display: flex;
+      gap: 4px;
+      align-items: flex-start;
+      flex-shrink: 0;
+      flex-direction: column
+    }
+
+    .tag {
+      font-size: 10px;
+      font-weight: 700;
+      padding: 1px 6px;
+      border-radius: 3px;
+      white-space: nowrap;
+      display: inline-block
+    }
+
+    .tag.new {
+      background: var(--red);
+      color: white;
+      animation: blink 1s infinite
+    }
+
+    .tag.hot {
+      background: var(--saffron);
+      color: white
+    }
+
+    .tag.imp {
+      background: var(--dark-green);
+      color: white
+    }
+
+    .date-badge {
+      font-size: 10px;
+      color: #888;
+      white-space: nowrap
+    }
+
+    @keyframes blink {
+
+      0%,
+      100% {
+        opacity: 1
+      }
+
+      50% {
+        opacity: 0.5
+      }
+    }
+
+    .quick-links {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1px;
+      background: var(--border)
+    }
+
+    .quick-links a {
+      background: white;
+      padding: 10px 12px;
+      text-decoration: none;
+      color: var(--navy);
+      font-weight: 600;
+      font-size: 13px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      transition: background 0.15s
+    }
+
+    .quick-links a:hover {
+      background: #E3F2FD
+    }
+
+    .featured-exam {
+      background: linear-gradient(135deg, #FFF9E6, #FFF3CC);
+      border: 2px solid var(--gold);
+      border-radius: 6px;
+      padding: 12px;
+      margin-bottom: 12px;
+      cursor: pointer;
+      transition: box-shadow 0.2s
+    }
+
+    .featured-exam:hover {
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15)
+    }
+
+    .btn-apply {
+      display: inline-block;
+      background: var(--saffron);
+      color: white;
+      padding: 6px 16px;
+      border-radius: 4px;
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 13px
+    }
+
+    .btn-detail {
+      display: inline-block;
+      background: var(--navy);
+      color: white;
+      padding: 6px 16px;
+      border-radius: 4px;
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 13px;
+      margin-left: 6px
+    }
+
+    .side-box {
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      overflow: hidden;
+      margin-bottom: 12px
+    }
+
+    .side-header {
+      padding: 8px 12px;
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 14px;
+      font-weight: 700;
+      color: white
+    }
+
+    .side-list {
+      list-style: none
+    }
+
+    .side-list li {
+      padding: 7px 12px;
+      border-bottom: 1px solid #EFEFEF;
+      display: flex;
+      align-items: flex-start;
+      gap: 5px
+    }
+
+    .side-list li:last-child {
+      border-bottom: none
+    }
+
+    .side-list li::before {
+      content: "▶";
+      color: var(--saffron);
+      font-size: 9px;
+      margin-top: 4px;
+      flex-shrink: 0
+    }
+
+    .side-list a {
+      color: var(--navy);
+      text-decoration: none;
+      font-size: 12px;
+      line-height: 1.4;
+      flex: 1
+    }
+
+    .side-list a:hover {
+      color: var(--saffron)
+    }
+
+    .side-tag {
+      font-size: 9px;
+      font-weight: 700;
+      padding: 1px 5px;
+      border-radius: 2px;
+      white-space: nowrap;
+      margin-top: 2px
+    }
+
+    .side-tag.new {
+      background: red;
+      color: white
+    }
+
+    .side-tag.hot {
+      background: var(--saffron);
+      color: white
+    }
+
+    .cat-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 6px;
+      padding: 10px
+    }
+
+    .cat-btn {
+      display: block;
+      text-align: center;
+      padding: 8px 6px;
+      border-radius: 4px;
+      text-decoration: none;
+      font-size: 12px;
+      font-weight: 600;
+      color: white;
+      transition: opacity 0.2s
+    }
+
+    .cat-btn:hover {
+      opacity: 0.85
+    }
+
+    .state-tabs {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 4px;
+      padding: 10px
+    }
+
+    .state-tabs a {
+      background: #E8EAF6;
+      color: var(--navy);
+      padding: 4px 10px;
+      border-radius: 3px;
+      text-decoration: none;
+      font-size: 12px;
+      font-weight: 500;
+      transition: background 0.2s
+    }
+
+    .state-tabs a:hover {
+      background: var(--navy);
+      color: white
+    }
+
+    footer {
+      background: var(--dark-navy);
+      color: #B0C4DE;
+      margin-top: 20px
+    }
+
+    .footer-top {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 16px 12px
+    }
+
+    .footer-col h4 {
+      font-family: 'Rajdhani', sans-serif;
+      color: var(--gold);
+      font-size: 13px;
+      margin-bottom: 6px;
+      padding-bottom: 4px;
+      border-bottom: 1px solid rgba(255, 215, 0, 0.3)
+    }
+
+    .footer-col ul {
+      list-style: none
+    }
+
+    .footer-col ul li {
+      margin-bottom: 3px
+    }
+
+    .footer-col ul a {
+      color: #B0C4DE;
+      text-decoration: none;
+      font-size: 12px
+    }
+
+    .footer-col ul a:hover {
+      color: var(--gold)
+    }
+
+    .footer-bottom {
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      text-align: center;
+      padding: 8px;
+      font-size: 11px;
+      background: rgba(0, 0, 0, 0.2)
+    }
+
+    @media(max-width:768px) {
+      .container {
+        grid-template-columns: 1fr
+      }
+
+      .header-stats {
+        display: none
+      }
+
+      .footer-top {
+        grid-template-columns: 1fr 1fr
+      }
+
+      .search-panel {
+        flex-direction: column;
+        align-items: stretch;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="tricolor"></div>
+  <div class="topbar">
+    <marquee scrollamount="4" id="topTicker">Loading...</marquee>
+  </div>
+
+  <header>
+    <div class="header-inner">
+      <div class="logo-area">
+        <div class="logo-icon">🇮🇳</div>
+        <div class="logo-text">
+          <h1>SarkariNaukri.in</h1>
+          <p>Sarkari Result • Admit Card • Jobs • Syllabus 2025-26</p>
+        </div>
+      </div>
+      <div class="header-stats">
+        <div class="stat-box"><span class="num" id="totalVacancies">-</span><span class="lbl">Vacancies</span></div>
+        <div class="stat-box"><span class="num" id="totalJobs">-</span><span class="lbl">Active Forms</span></div>
+        <div class="stat-box"><span class="num">2.1 Cr</span><span class="lbl">Users</span></div>
+      </div>
+    </div>
+  </header>
+
+  <nav>
+    <div class="nav-inner">
+      <a href="index.html" class="active">🏠 Home</a>
+      <a href="#">📋 Latest Jobs</a>
+      <a href="#">🎫 Admit Card</a>
+      <a href="#">📊 Result</a>
+      <a href="#">🗝️ Answer Key</a>
+      <a href="#">📚 Syllabus</a>
+      <a href="#">🏛️ State Jobs</a>
+      <a href="#">📰 Previous Paper</a>
+    </div>
+  </nav>
+
+  <div class="container">
+    <div class="notice-ticker" style="grid-column:1/-1">
+      <span class="label">⚠ NOTICE</span>
+      <marquee scrollamount="3" id="noticeTicker">Loading...</marquee>
+    </div>
+
+    <div class="search-panel" style="grid-column:1/-1">
+      <input id="jobSearch" type="search" placeholder="Search jobs by title, organisation, state, category..." />
+      <button class="search-btn" onclick="searchJobs()">🔍 Search</button>
+      <button class="reset-btn" onclick="resetSearch()">Reset</button>
+    </div>
+
+    <main>
+      <div id="featuredJob"></div>
+
+      <div class="section-box">
+        <div class="section-header">
+          <h2>⚡ Quick Links</h2>
+        </div>
+        <div class="quick-links">
+          <a href="#latestJobs">📋 Latest Govt Jobs</a>
+          <a href="#">🎫 Admit Card 2026</a>
+          <a href="#">📊 Sarkari Result</a>
+          <a href="#">🗝️ Answer Key</a>
+          <a href="#">📚 Syllabus PDF</a>
+          <a href="#">📰 Previous Papers</a>
+          <a href="#">🏛️ State Bharti</a>
+          <a href="#">🎓 10th Pass Jobs</a>
+        </div>
+      </div>
+
+      <div class="section-box" id="latestJobs">
+        <div class="section-header">
+          <h2>📋 Latest Sarkari Jobs 2026</h2><a href="#" class="view-all">View All »</a>
+        </div>
+        <ul class="job-list" id="jobsList"></ul>
+      </div>
+
+      <div class="section-box">
+        <div class="section-header green">
+          <h2>🎫 Admit Card 2026</h2><a href="#" class="view-all">View All »</a>
+        </div>
+        <ul class="job-list">
+          <li><a class="job-row" href="#"><span class="job-title">SSC CPO 2025 Paper 1 Admit Card – Download Link
+                Active</span>
+              <div class="job-meta"><span class="tag new">NEW</span><span class="date-badge">28 Apr</span></div>
+            </a></li>
+          <li><a class="job-row" href="#"><span class="job-title">RRB Group D 2025 Exam City Intimation Letter</span>
+              <div class="job-meta"><span class="tag hot">HOT</span><span class="date-badge">27 Apr</span></div>
+            </a></li>
+          <li><a class="job-row" href="#"><span class="job-title">IBPS Clerk Mains Call Letter 2025 Out</span>
+              <div class="job-meta"><span class="tag new">NEW</span><span class="date-badge">26 Apr</span></div>
+            </a></li>
+          <li><a class="job-row" href="#"><span class="job-title">UP TET Admit Card 2025 – Hall Ticket Out</span>
+              <div class="job-meta"><span class="tag new">NEW</span><span class="date-badge">24 Apr</span></div>
+            </a></li>
+        </ul>
+      </div>
+
+      <div class="section-box">
+        <div class="section-header red">
+          <h2>📊 Sarkari Result 2026</h2><a href="#" class="view-all">View All »</a>
+        </div>
+        <ul class="job-list">
+          <li><a class="job-row" href="#"><span class="job-title">Bihar Police Driver PET Result 2026 – Out</span>
+              <div class="job-meta"><span class="tag new">NEW</span><span class="date-badge">28 Apr</span></div>
+            </a></li>
+          <li><a class="job-row" href="#"><span class="job-title">SSC GD Constable Result 2025 – Marks & Cutoff</span>
+              <div class="job-meta"><span class="tag new">NEW</span><span class="date-badge">27 Apr</span></div>
+            </a></li>
+          <li><a class="job-row" href="#"><span class="job-title">RRB NTPC CBT 1 Result 2025 Declared</span>
+              <div class="job-meta"><span class="tag hot">HOT</span><span class="date-badge">26 Apr</span></div>
+            </a></li>
+        </ul>
+      </div>
+    </main>
+
+    <aside>
+      <div class="side-box">
+        <div class="side-header" style="background:linear-gradient(90deg,#4527A0,#311B92)">🏛️ State Wise Jobs</div>
+        <div class="state-tabs">
+          <a href="#">Uttar Pradesh</a><a href="#">Bihar</a><a href="#">Rajasthan</a>
+          <a href="#">Madhya Pradesh</a><a href="#">Maharashtra</a><a href="#">Gujarat</a>
+          <a href="#">Punjab</a><a href="#">Haryana</a><a href="#">Delhi</a><a href="#">Jharkhand</a>
+        </div>
+      </div>
+      <div class="side-box">
+        <div class="side-header" style="background:linear-gradient(90deg,var(--dark-green),#0A5C02)">📂 Job Category
+        </div>
+        <div class="cat-grid">
+          <a href="#" class="cat-btn" style="background:#1565C0">🏦 Bank Jobs</a>
+          <a href="#" class="cat-btn" style="background:#B71C1C">🚆 Railway</a>
+          <a href="#" class="cat-btn" style="background:#1B5E20">🪖 Defence</a>
+          <a href="#" class="cat-btn" style="background:#E65100">👮 Police</a>
+          <a href="#" class="cat-btn" style="background:#4A148C">🎓 Teaching</a>
+          <a href="#" class="cat-btn" style="background:#004D40">⚕️ Medical</a>
+          <a href="#" class="cat-btn" style="background:#880E4F">🔧 Engineering</a>
+          <a href="#" class="cat-btn" style="background:#37474F">📊 SSC Jobs</a>
+        </div>
+      </div>
+      <div class="side-box">
+        <div class="side-header" style="background:linear-gradient(90deg,var(--red),#AA0000)">📅 Important Dates</div>
+        <ul class="side-list" id="importantDates"></ul>
+      </div>
+      <div class="side-box">
+        <div class="side-header" style="background:linear-gradient(90deg,var(--saffron),var(--dark-saffron))">🔗 Useful
+          Links</div>
+        <ul class="side-list">
+          <li><a href="https://upsc.gov.in" target="_blank">📄 UPSC Official Website</a></li>
+          <li><a href="https://ssc.gov.in" target="_blank">📄 SSC Official Portal</a></li>
+          <li><a href="https://indianrailways.gov.in" target="_blank">📄 RRB Railway Board</a></li>
+          <li><a href="https://ibps.in" target="_blank">📄 IBPS Official Site</a></li>
+          <li><a href="https://crpf.gov.in" target="_blank">📄 CRPF Official Site</a></li>
+        </ul>
+      </div>
+    </aside>
+  </div>
+
+  <footer>
+    <div class="footer-top">
+      <div class="footer-col">
+        <h4>SarkariNaukri.in</h4>
+        <ul>
+          <li><a href="#">About Us</a></li>
+          <li><a href="#">Contact Us</a></li>
+          <li><a href="#">Privacy Policy</a></li>
+          <li><a href="#">Disclaimer</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Categories</h4>
+        <ul>
+          <li><a href="#">Bank Jobs</a></li>
+          <li><a href="#">Railway Jobs</a></li>
+          <li><a href="#">SSC Jobs</a></li>
+          <li><a href="#">Defence Jobs</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>State Jobs</h4>
+        <ul>
+          <li><a href="#">UP Jobs</a></li>
+          <li><a href="#">Bihar Jobs</a></li>
+          <li><a href="#">Rajasthan</a></li>
+          <li><a href="#">MP Jobs</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Follow Us</h4>
+        <ul>
+          <li><a href="#">📱 WhatsApp Channel</a></li>
+          <li><a href="#">✈️ Telegram Group</a></li>
+          <li><a href="#">📺 YouTube</a></li>
+          <li><a href="#">📘 Facebook</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">© 2025-26 SarkariNaukri.in | All Rights Reserved | Disclaimer: यह एक Educational Website
+      है।</div>
+  </footer>
+  <div class="tricolor"></div>
+
+  <script>
+    function renderJobs(items) {
+      const titles = items.length ? items.map(j => "🔴 " + j.title + " – " + j.total_posts + " Posts").join(' | ') : 'No jobs found';
+      document.getElementById('topTicker').textContent = titles;
+      document.getElementById('noticeTicker').textContent = titles;
+
+      const featured = document.getElementById('featuredJob');
+      const list = document.getElementById('jobsList');
+      if (!items.length) {
+        featured.innerHTML = '<div class="featured-exam" style="text-align:center;padding:40px;cursor:default"><strong>No matching jobs found</strong><div style="margin-top:8px;color:#666">Try another search or reset.</div></div>';
+        list.innerHTML = '<li><div class="empty-state"><div class="icon">🔍</div><div>Search results empty. Reset to show all jobs.</div></div></li>';
+        return;
+      }
+
+      const f = items[0];
+      featured.innerHTML =
+        '<div class="featured-exam" onclick="location.href=\'job-detail.html?id=' + f.id + '\'">' +
+        '<span class="tag ' + (f.tag === 'HOT' ? 'hot' : 'new') + '" style="margin-right:6px">' + (f.tag === 'HOT' ? '🔥 HOT' : 'NEW') + '</span>' +
+        '<h3 style="margin-top:6px;font-family:Rajdhani,sans-serif;font-size:17px;color:var(--dark-navy)">' + f.title + '</h3>' +
+        '<div style="font-size:12px;color:var(--dark-green);font-weight:600;margin:4px 0">Total Posts: ' + f.total_posts + ' | ' + f.org + '</div>' +
+        '<div style="font-size:11px;color:#666;margin-bottom:8px">📅 Last Date: ' + f.last_date + ' | 🎓 ' + f.eligibility + ' | 🔞 ' + f.age + '</div>' +
+        '<a href="job-detail.html?id=' + f.id + '" class="btn-apply" onclick="event.stopPropagation()">📋 Full Details & Apply</a>' +
+        '<a href="#" class="btn-detail" onclick="event.stopPropagation()">🔔 Notify Me</a>' +
+        '</div>';
+
+      list.innerHTML = items.map(function (job) {
+        const tagClass = job.tag === 'NEW' ? 'new' : job.tag === 'HOT' ? 'hot' : 'imp';
+        return '<li><a class="job-row" href="job-detail.html?id=' + job.id + '">' +
+          '<span class="job-title">' + job.title + ' – ' + job.total_posts + ' Posts</span>' +
+          '<div class="job-meta"><span class="tag ' + tagClass + '">' + job.tag + '</span>' +
+          '<span class="date-badge">' + job.post_date + '</span></div></a></li>';
+      }).join('');
+    }
+
+    function searchJobs() {
+      const query = document.getElementById('jobSearch').value.trim().toLowerCase();
+      const filtered = query ? JOBS.filter(function (job) {
+        return [job.title, job.org, job.state, job.category, job.hindi_title].join(' ').toLowerCase().includes(query);
+      }) : JOBS;
+      renderJobs(filtered);
+    }
+
+    function resetSearch() {
+      document.getElementById('jobSearch').value = '';
+      renderJobs(JOBS);
+    }
+
+    window.onload = function () {
+      let totalV = 0;
+      JOBS.forEach(j => { totalV += parseInt(j.total_posts.replace(/,/g, '')) || 0; });
+      document.getElementById('totalVacancies').textContent = Math.round(totalV / 1000) + 'K+';
+      document.getElementById('totalJobs').textContent = JOBS.length;
+      renderJobs(JOBS);
+
+      const datesEl = document.getElementById('importantDates');
+      JOBS.slice(0, 5).forEach(function (job) {
+        const lastDate = job.important_dates.find(function (d) { return d.label.includes('Last'); });
+        if (lastDate) {
+          const li = document.createElement('li');
+          li.innerHTML =
+            '<div style="flex:1">' +
+            '<a href="job-detail.html?id=' + job.id + '" style="font-size:12px">' + job.title.substring(0, 38) + '...</a>' +
+            '<div style="color:var(--red);font-size:11px;font-weight:600">⏰ ' + lastDate.value + '</div></div>';
+          datesEl.appendChild(li);
+        }
+      });
+    };
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Job Detail - SarkariNaukri.in</title>
+<link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;600;700&family=Hind:wght@400;500;600&display=swap" rel="stylesheet">
+<script src="jobs-data.js"></script>
+<style>
+  :root{--saffron:#FF6B00;--dark-saffron:#E05A00;--green:#138808;--dark-green:#0D6606;--navy:#003087;--dark-navy:#001F5B;--gold:#FFD700;--red:#CC0000;--bg:#F2F2F2;--white:#FFFFFF;--border:#DDDDDD}
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:'Hind',sans-serif;background:var(--bg);color:#1A1A1A;font-size:14px}
+  .tricolor{height:4px;background:linear-gradient(90deg,#FF6B00 33%,white 33%,white 66%,#138808 66%)}
+  .topbar{background:var(--dark-navy);color:#FFD700;font-size:12px;padding:4px 0;text-align:center}
+  header{background:linear-gradient(135deg,var(--navy),var(--dark-navy) 60%,#0D6606);padding:10px 0;border-bottom:4px solid var(--saffron)}
+  .header-inner{max-width:1100px;margin:0 auto;padding:0 12px;display:flex;align-items:center;gap:12px}
+  .logo-icon{width:55px;height:55px;background:white;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:26px;border:3px solid var(--gold);flex-shrink:0}
+  .logo-text h1{font-family:'Rajdhani',sans-serif;font-size:24px;font-weight:700;color:var(--gold)}
+  .logo-text p{color:#B0C4DE;font-size:11px}
+  nav{background:var(--saffron);border-bottom:3px solid var(--dark-saffron);position:sticky;top:0;z-index:100}
+  .nav-inner{max-width:1100px;margin:0 auto;display:flex;flex-wrap:wrap;padding:0 8px}
+  nav a{color:white;text-decoration:none;font-family:'Rajdhani',sans-serif;font-weight:600;font-size:14px;padding:8px 14px;display:block}
+  nav a:hover{background:var(--dark-saffron)}
+  .breadcrumb{max-width:1100px;margin:10px auto;padding:0 12px;font-size:12px;color:#666}
+  .breadcrumb a{color:var(--navy);text-decoration:none}
+  .breadcrumb a:hover{text-decoration:underline}
+  .container{max-width:1100px;margin:0 auto 20px;padding:0 10px;display:grid;grid-template-columns:1fr 280px;gap:12px}
+  .post-box{background:white;border:1px solid var(--border);border-radius:6px;overflow:hidden;box-shadow:0 1px 4px rgba(0,0,0,0.08)}
+  .post-header{background:linear-gradient(90deg,var(--navy),var(--dark-navy));padding:14px 16px}
+  .post-header h1{font-family:'Rajdhani',sans-serif;font-size:20px;color:white;font-weight:700;line-height:1.3}
+  .post-meta{margin-top:6px;color:#B0C4DE;font-size:12px;display:flex;gap:16px;flex-wrap:wrap}
+  .social-share{padding:10px 16px;background:#FFF8E1;border-bottom:1px solid #FFE082;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+  .social-share span{font-size:12px;font-weight:600;color:#555}
+  .share-btn{padding:5px 12px;border-radius:4px;color:white;text-decoration:none;font-size:12px;font-weight:600;display:inline-flex;align-items:center;gap:4px}
+  .share-btn.wa{background:#25D366}
+  .share-btn.tg{background:#0088CC}
+  .share-btn.tw{background:#1DA1F2}
+  .share-btn.fb{background:#1877F2}
+  .post-body{padding:16px}
+  .post-body p{margin-bottom:12px;line-height:1.7;color:#333}
+  .post-body h2{font-family:'Rajdhani',sans-serif;font-size:17px;font-weight:700;color:var(--dark-navy);margin:16px 0 8px;padding-left:10px;border-left:4px solid var(--saffron)}
+  .tbl-header{color:white;text-align:center;padding:8px;font-family:'Rajdhani',sans-serif;font-size:15px;font-weight:700;border-radius:4px 4px 0 0}
+  .tbl-navy{background:linear-gradient(90deg,var(--navy),var(--dark-navy))}
+  .tbl-green{background:linear-gradient(90deg,var(--green),#0D6606)}
+  .tbl-orange{background:linear-gradient(90deg,var(--saffron),var(--dark-saffron))}
+  .tbl-red{background:linear-gradient(90deg,var(--red),#AA0000)}
+  .tbl-purple{background:linear-gradient(90deg,#6A1B9A,#4A148C)}
+  .info-table{width:100%;border-collapse:collapse;margin-bottom:16px}
+  .info-table td{padding:7px 12px;border:1px solid #E0E0E0;vertical-align:top;font-size:13px}
+  .info-table tr:nth-child(even) td{background:#F8F9FF}
+  .info-table td:first-child{font-weight:600;color:#333;width:45%}
+  .info-table td.hl{color:var(--red);font-weight:700}
+  .info-table td.gr{color:var(--green);font-weight:700}
+  .info-table td.cm{color:#888;font-style:italic}
+  .links-table{width:100%;border-collapse:collapse;margin-bottom:16px}
+  .links-table td{padding:8px 12px;border:1px solid #E0E0E0;font-size:13px}
+  .links-table tr:nth-child(even) td{background:#F8F9FF}
+  .links-table td:first-child{font-weight:600}
+  .link-btn{display:inline-block;color:white;padding:5px 16px;border-radius:3px;text-decoration:none;font-weight:700;font-size:12px;transition:opacity 0.2s}
+  .link-btn:hover{opacity:0.85}
+  .btn-apply{background:var(--green)}
+  .btn-notify{background:var(--navy)}
+  .btn-official{background:#555}
+  .btn-wa{background:#25D366}
+  .btn-tg{background:#0088CC}
+  .btn-coming{background:#aaa}
+  .highlight-box{background:#FFF3E0;border:2px solid var(--saffron);border-radius:6px;padding:12px 16px;margin-bottom:16px}
+  .highlight-box h3{color:var(--saffron);font-family:'Rajdhani',sans-serif;font-size:15px;margin-bottom:6px}
+  .highlight-box ul{padding-left:18px}
+  .highlight-box ul li{margin-bottom:4px;color:#333;font-size:13px;line-height:1.6}
+  .note-box{background:#E8F5E9;border-left:4px solid var(--green);padding:10px 14px;margin-bottom:16px;border-radius:0 4px 4px 0;font-size:13px;color:#1B5E20;font-weight:500}
+  .warning-box{background:#FFF8E1;border-left:4px solid #FFC107;padding:10px 14px;margin-bottom:16px;border-radius:0 4px 4px 0;font-size:13px;color:#5D4037}
+  .tag{font-size:11px;font-weight:700;padding:2px 8px;border-radius:3px;display:inline-block;margin:2px 2px 8px 0}
+  .tag.new{background:var(--red);color:white}
+  .tag.hot{background:var(--saffron);color:white}
+  .tag.total{background:var(--navy);color:white}
+  /* SIDEBAR */
+  .side-box{background:white;border:1px solid var(--border);border-radius:6px;overflow:hidden;margin-bottom:12px}
+  .side-header{padding:8px 12px;font-family:'Rajdhani',sans-serif;font-size:14px;font-weight:700;color:white}
+  .side-list{list-style:none}
+  .side-list li{padding:7px 12px;border-bottom:1px solid #EFEFEF;display:flex;align-items:flex-start;gap:5px}
+  .side-list li:last-child{border-bottom:none}
+  .side-list li::before{content:"▶";color:var(--saffron);font-size:9px;margin-top:4px;flex-shrink:0}
+  .side-list a{color:var(--navy);text-decoration:none;font-size:12px;line-height:1.4;flex:1}
+  .side-list a:hover{color:var(--saffron)}
+  .side-tag{font-size:9px;font-weight:700;padding:1px 5px;border-radius:2px;white-space:nowrap;margin-top:2px}
+  .side-tag.new{background:red;color:white}
+  .side-tag.hot{background:var(--saffron);color:white}
+  .notify-box{background:linear-gradient(135deg,#E3F2FD,#BBDEFB);border:1px solid #90CAF9;border-radius:6px;padding:14px;margin-bottom:12px;text-align:center}
+  .notify-box h4{font-family:'Rajdhani',sans-serif;color:var(--navy);font-size:15px;margin-bottom:6px}
+  .notify-box p{font-size:12px;color:#555;margin-bottom:10px}
+  .notify-btn{display:block;color:white;padding:8px;border-radius:4px;text-decoration:none;font-weight:700;font-size:13px;margin-bottom:6px}
+  footer{background:var(--dark-navy);color:#B0C4DE}
+  .footer-top{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;max-width:1100px;margin:0 auto;padding:16px 12px}
+  .footer-col h4{font-family:'Rajdhani',sans-serif;color:var(--gold);font-size:13px;margin-bottom:6px;padding-bottom:4px;border-bottom:1px solid rgba(255,215,0,0.3)}
+  .footer-col ul{list-style:none}
+  .footer-col ul li{margin-bottom:3px}
+  .footer-col ul a{color:#B0C4DE;text-decoration:none;font-size:12px}
+  .footer-col ul a:hover{color:var(--gold)}
+  .footer-bottom{border-top:1px solid rgba(255,255,255,0.1);text-align:center;padding:8px;font-size:11px;background:rgba(0,0,0,0.2)}
+  @media(max-width:768px){.container{grid-template-columns:1fr}.footer-top{grid-template-columns:1fr 1fr}}
+</style>
+</head>
+<body>
+<div class="tricolor"></div>
+<div class="topbar"><marquee scrollamount="4" id="topTicker">Loading...</marquee></div>
+
+<header>
+  <div class="header-inner">
+    <div class="logo-icon">🇮🇳</div>
+    <div class="logo-text">
+      <h1>SarkariNaukri.in</h1>
+      <p>Sarkari Result • Admit Card • Jobs • Syllabus 2025-26</p>
+    </div>
+  </div>
+</header>
+
+<nav>
+  <div class="nav-inner">
+    <a href="index.html">🏠 Home</a>
+    <a href="#">📋 Latest Jobs</a>
+    <a href="#">🎫 Admit Card</a>
+    <a href="#">📊 Result</a>
+    <a href="#">🗝️ Answer Key</a>
+    <a href="#">📚 Syllabus</a>
+    <a href="#">🏛️ State Jobs</a>
+    <a href="#">📰 Previous Paper</a>
+  </div>
+</nav>
+
+<div class="breadcrumb" id="breadcrumb">
+  <a href="index.html">Home</a> » <a href="#">Latest Jobs</a> » Loading...
+</div>
+
+<div class="container">
+  <main>
+    <div class="post-box" id="postBox">
+      <div style="padding:40px;text-align:center;color:#888">Loading job details...</div>
+    </div>
+  </main>
+
+  <aside>
+    <div class="notify-box">
+      <h4>🔔 Free Job Alert पाएं!</h4>
+      <p>नई भर्ती आते ही तुरंत notification पाएं</p>
+      <a href="#" class="notify-btn" style="background:#25D366">📱 WhatsApp Join करें</a>
+      <a href="#" class="notify-btn" style="background:#0088CC">✈️ Telegram Join करें</a>
+    </div>
+
+    <div class="side-box">
+      <div class="side-header" style="background:linear-gradient(90deg,var(--navy),var(--dark-navy))">📋 Latest Jobs 2026</div>
+      <ul class="side-list" id="relatedJobs"></ul>
+    </div>
+
+    <div class="side-box">
+      <div class="side-header" style="background:linear-gradient(90deg,var(--red),#AA0000)">📊 Latest Results</div>
+      <ul class="side-list">
+        <li><a href="#">Bihar Police Driver PET Result 2026</a><span class="side-tag new">NEW</span></li>
+        <li><a href="#">SSC GD Constable Result 2025</a><span class="side-tag new">NEW</span></li>
+        <li><a href="#">RRB NTPC CBT 1 Result 2025</a><span class="side-tag hot">HOT</span></li>
+        <li><a href="#">UPSC IAS Prelims Result 2025</a><span class="side-tag new">NEW</span></li>
+      </ul>
+    </div>
+
+    <div class="side-box">
+      <div class="side-header" style="background:linear-gradient(90deg,var(--green),#0D6606)">🎫 Admit Card 2026</div>
+      <ul class="side-list">
+        <li><a href="#">SSC CPO 2025 Admit Card</a><span class="side-tag new">NEW</span></li>
+        <li><a href="#">RRB Group D Hall Ticket</a><span class="side-tag hot">HOT</span></li>
+        <li><a href="#">IBPS Clerk Mains Call Letter</a><span class="side-tag new">NEW</span></li>
+        <li><a href="#">UP TET Admit Card 2025</a><span class="side-tag new">NEW</span></li>
+      </ul>
+    </div>
+
+    <div class="side-box">
+      <div class="side-header" style="background:linear-gradient(90deg,var(--saffron),var(--dark-saffron))">🔗 Official Links</div>
+      <ul class="side-list">
+        <li><a href="https://upsc.gov.in" target="_blank">📄 UPSC Official</a></li>
+        <li><a href="https://ssc.gov.in" target="_blank">📄 SSC Official</a></li>
+        <li><a href="https://indianrailways.gov.in" target="_blank">📄 RRB Official</a></li>
+        <li><a href="https://ibps.in" target="_blank">📄 IBPS Official</a></li>
+        <li><a href="https://crpf.gov.in" target="_blank">📄 CRPF Official</a></li>
+      </ul>
+    </div>
+  </aside>
+</div>
+
+<footer>
+  <div class="footer-top">
+    <div class="footer-col"><h4>SarkariNaukri.in</h4><ul><li><a href="#">About Us</a></li><li><a href="#">Contact Us</a></li><li><a href="#">Privacy Policy</a></li><li><a href="#">Disclaimer</a></li></ul></div>
+    <div class="footer-col"><h4>Categories</h4><ul><li><a href="#">Bank Jobs</a></li><li><a href="#">Railway Jobs</a></li><li><a href="#">SSC Jobs</a></li><li><a href="#">Defence Jobs</a></li></ul></div>
+    <div class="footer-col"><h4>State Jobs</h4><ul><li><a href="#">UP Jobs</a></li><li><a href="#">Bihar Jobs</a></li><li><a href="#">Rajasthan</a></li><li><a href="#">MP Jobs</a></li></ul></div>
+    <div class="footer-col"><h4>Follow Us</h4><ul><li><a href="#">📱 WhatsApp Channel</a></li><li><a href="#">✈️ Telegram Group</a></li><li><a href="#">📺 YouTube</a></li><li><a href="#">📘 Facebook</a></li></ul></div>
+  </div>
+  <div class="footer-bottom">© 2025-26 SarkariNaukri.in | All Rights Reserved | Disclaimer: यह एक Educational Website है।</div>
+</footer>
+<div class="tricolor"></div>
+
+<script>
+window.onload = function() {
+  // Ticker
+  const titles = JOBS.map(j => "🔴 " + j.title + " – " + j.total_posts + " Posts").join(' | ');
+  document.getElementById('topTicker').textContent = titles;
+
+  // Get job ID from URL
+  const params = new URLSearchParams(window.location.search);
+  const jobId = params.get('id') || JOBS[0].id;
+  const job = JOBS.find(function(j){ return j.id === jobId; }) || JOBS[0];
+
+  // Page title
+  document.title = job.title + " - SarkariNaukri.in";
+
+  // Breadcrumb
+  document.getElementById('breadcrumb').innerHTML =
+    '<a href="index.html">Home</a> » <a href="#">Latest Jobs</a> » ' + job.title;
+
+  // Build important dates rows
+  let datesRows = '';
+  job.important_dates.forEach(function(d) {
+    const cls = d.highlight ? 'hl' : d.value.toLowerCase().includes('soon') ? 'cm' : '';
+    datesRows += '<tr><td>' + d.label + '</td><td class="' + cls + '">' + d.value + '</td></tr>';
+  });
+
+  // Fee rows
+  let feeRows = '';
+  job.fee.forEach(function(f) {
+    feeRows += '<tr><td>' + f.label + '</td><td>' + f.value + '</td></tr>';
+  });
+
+  // Age rows
+  let ageRows = '';
+  job.age_limit.forEach(function(a) {
+    ageRows += '<tr><td>' + a.label + '</td><td>' + a.value + '</td></tr>';
+  });
+
+  // Vacancy rows
+  let vacRows = '';
+  job.vacancy.forEach(function(v) {
+    const cls = v.highlight ? 'hl' : '';
+    vacRows += '<tr><td>' + v.label + '</td><td class="' + cls + '">' + v.value + '</td></tr>';
+  });
+
+  // Eligibility list
+  let eligList = job.eligibility_details.map(function(e){ return '<li>' + e + '</li>'; }).join('');
+
+  // Links rows
+  let linksRows = '';
+  job.links.forEach(function(l) {
+    let btnClass = 'btn-notify';
+    let label = l.label;
+    if (l.type === 'apply') { btnClass = l.status === 'coming' ? 'btn-coming' : 'btn-apply'; label = l.status === 'coming' ? '⏳ Coming Soon' : '✅ Apply Now'; }
+    else if (l.type === 'official') { btnClass = 'btn-official'; label = '🌐 Visit Site'; }
+    else if (l.type === 'whatsapp') { btnClass = 'btn-wa'; label = '📱 Join'; }
+    else if (l.type === 'telegram') { btnClass = 'btn-tg'; label = '✈️ Join'; }
+    else if (l.status === 'coming') { btnClass = 'btn-coming'; label = '⏳ Coming Soon'; }
+    const target = l.url === '#' ? '' : 'target="_blank"';
+    linksRows += '<tr><td>' + l.label + '</td><td><a href="' + l.url + '" class="link-btn ' + btnClass + '" ' + target + '>' + label + '</a></td></tr>';
+  });
+
+  // Related posts
+  let relatedRows = '';
+  JOBS.filter(function(j){ return j.id !== job.id; }).slice(0,4).forEach(function(j) {
+    relatedRows += '<tr><td>' + j.title + ' – ' + j.total_posts + ' Posts</td>' +
+      '<td><a href="job-detail.html?id=' + j.id + '" class="link-btn btn-notify">Read More</a></td></tr>';
+  });
+
+  // Render post
+  const tagClass = job.tag === 'NEW' ? 'new' : 'hot';
+  document.getElementById('postBox').innerHTML =
+    '<div class="post-header">' +
+    '<span class="tag ' + tagClass + '">' + job.tag + '</span>' +
+    '<span class="tag total">Total: ' + job.total_posts + ' Posts</span>' +
+    '<h1>' + job.title + '</h1>' +
+    '<div class="post-meta"><span>📅 ' + job.post_date + '</span><span>🏛️ ' + job.org + '</span><span>📍 ' + job.state + '</span></div>' +
+    '</div>' +
+
+    '<div class="social-share">' +
+    '<span>Share:</span>' +
+    '<a href="https://wa.me/?text=' + encodeURIComponent(job.title + ' – Apply Now: ' + window.location.href) + '" class="share-btn wa" target="_blank">📱 WhatsApp</a>' +
+    '<a href="https://t.me/share/url?url=' + encodeURIComponent(window.location.href) + '&text=' + encodeURIComponent(job.title) + '" class="share-btn tg" target="_blank">✈️ Telegram</a>' +
+    '<a href="https://twitter.com/intent/tweet?text=' + encodeURIComponent(job.title) + '&url=' + encodeURIComponent(window.location.href) + '" class="share-btn tw" target="_blank">🐦 Twitter</a>' +
+    '<a href="https://www.facebook.com/sharer/sharer.php?u=' + encodeURIComponent(window.location.href) + '" class="share-btn fb" target="_blank">📘 Facebook</a>' +
+    '</div>' +
+
+    '<div class="post-body">' +
+    '<div class="note-box">✅ ' + job.description + '</div>' +
+
+    '<h2>📅 Important Dates</h2>' +
+    '<div class="tbl-header tbl-red">महत्वपूर्ण तिथियां / Important Dates</div>' +
+    '<table class="info-table">' + datesRows + '</table>' +
+
+    '<h2>💰 Application Fee</h2>' +
+    '<div class="tbl-header tbl-orange">आवेदन शुल्क / Application Fee</div>' +
+    '<table class="info-table">' + feeRows + '</table>' +
+
+    '<h2>🔞 Age Limit</h2>' +
+    '<div class="tbl-header tbl-purple">आयु सीमा / Age Limit</div>' +
+    '<table class="info-table">' + ageRows + '</table>' +
+
+    '<h2>📋 Vacancy Details</h2>' +
+    '<div class="tbl-header tbl-green">पद विवरण / Post Details</div>' +
+    '<table class="info-table">' + vacRows + '</table>' +
+
+    '<h2>🎓 Eligibility / योग्यता</h2>' +
+    '<div class="highlight-box"><h3>📌 Educational Qualification & Physical Standard</h3><ul>' + eligList + '</ul></div>' +
+
+    '<div class="warning-box">⚠️ <strong>नोट:</strong> आधिकारिक notification जारी होने तक सभी details provisional हैं। Official website जरूर check करें।</div>' +
+
+    '<h2>🔗 Important Links</h2>' +
+    '<div class="tbl-header tbl-navy">SOME USEFUL IMPORTANT LINKS</div>' +
+    '<table class="links-table">' + linksRows +
+    '<tr><td>🏠 SarkariNaukri Home</td><td><a href="index.html" class="link-btn btn-notify">Click Here</a></td></tr>' +
+    '</table>' +
+
+    '<h2>📋 Related Jobs</h2>' +
+    '<div class="tbl-header tbl-navy">Related & Latest Posts</div>' +
+    '<table class="links-table">' + relatedRows + '</table>' +
+
+    '<div class="warning-box" style="margin-top:12px">📌 <strong>Disclaimer:</strong> यह एक informational website है। हम किसी सरकारी संस्था से संबद्ध नहीं हैं। Official notification के लिए आधिकारिक वेबसाइट देखें।</div>' +
+    '</div>';
+
+  // Related jobs sidebar
+  const relEl = document.getElementById('relatedJobs');
+  JOBS.forEach(function(j) {
+    const li = document.createElement('li');
+    const tc = j.tag === 'NEW' ? 'new' : 'hot';
+    li.innerHTML = '<a href="job-detail.html?id=' + j.id + '">' + j.title + '</a><span class="side-tag ' + tc + '">' + j.tag + '</span>';
+    relEl.appendChild(li);
+  });
+};
+</script>
+</body>
+</html>

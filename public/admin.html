@@ -1,0 +1,1131 @@
+<!DOCTYPE html>
+<html lang="hi">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Panel – SarkariNaukri.in</title>
+  <style>
+    :root {
+      --navy: #003087;
+      --saffron: #FF6B00;
+      --green: #138808;
+      --red: #CC0000;
+      --gold: #FFD700;
+      --bg: #F0F2F5;
+      --white: #fff;
+      --border: #ddd;
+      --sidebar: 220px
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box
+    }
+
+    body {
+      font-family: sans-serif;
+      background: var(--bg);
+      color: #222;
+      font-size: 14px
+    }
+
+    /* ── LOGIN SCREEN ── */
+    .login-screen {
+      position: fixed;
+      inset: 0;
+      background: linear-gradient(135deg, var(--navy), #001F5B 60%, #0D6606);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 9999
+    }
+
+    .login-box {
+      background: white;
+      border-radius: 12px;
+      padding: 36px 32px;
+      width: 360px;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+      text-align: center
+    }
+
+    .login-box .logo {
+      font-size: 40px;
+      margin-bottom: 8px
+    }
+
+    .login-box h2 {
+      font-size: 20px;
+      color: var(--navy);
+      font-weight: 700;
+      margin-bottom: 4px
+    }
+
+    .login-box p {
+      font-size: 12px;
+      color: #888;
+      margin-bottom: 24px
+    }
+
+    .login-field {
+      text-align: left;
+      margin-bottom: 14px
+    }
+
+    .login-field label {
+      font-size: 12px;
+      font-weight: 600;
+      color: #444;
+      display: block;
+      margin-bottom: 4px
+    }
+
+    .login-field input {
+      width: 100%;
+      padding: 10px 12px;
+      border: 1px solid #ddd;
+      border-radius: 6px;
+      font-size: 14px;
+      outline: none;
+      transition: border 0.2s
+    }
+
+    .login-field input:focus {
+      border-color: var(--navy)
+    }
+
+    .login-btn {
+      width: 100%;
+      padding: 11px;
+      background: var(--saffron);
+      color: white;
+      border: none;
+      border-radius: 6px;
+      font-size: 15px;
+      font-weight: 700;
+      cursor: pointer;
+      margin-top: 6px;
+      transition: background 0.2s
+    }
+
+    .login-btn:hover {
+      background: #E05A00
+    }
+
+    .login-error {
+      background: #FFEBEE;
+      color: var(--red);
+      padding: 8px 12px;
+      border-radius: 6px;
+      font-size: 12px;
+      font-weight: 600;
+      margin-bottom: 12px;
+      display: none
+    }
+
+    .login-screen.hidden {
+      display: none
+    }
+
+    /* ── MAIN LAYOUT ── */
+    .layout {
+      display: flex;
+      min-height: 100vh;
+      display: none
+    }
+
+    .layout.visible {
+      display: flex
+    }
+
+    .sidebar {
+      width: var(--sidebar);
+      background: var(--navy);
+      color: #fff;
+      display: flex;
+      flex-direction: column;
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 100vh;
+      z-index: 100
+    }
+
+    .sidebar-logo {
+      padding: 18px 16px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      text-align: center
+    }
+
+    .sidebar-logo h2 {
+      font-size: 16px;
+      color: var(--gold);
+      font-weight: 700
+    }
+
+    .sidebar-logo p {
+      font-size: 11px;
+      color: #aaa;
+      margin-top: 2px
+    }
+
+    .sidebar-menu {
+      flex: 1;
+      padding: 10px 0;
+      overflow-y: auto
+    }
+
+    .menu-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 16px;
+      cursor: pointer;
+      color: #ccc;
+      transition: background 0.2s;
+      border-left: 3px solid transparent
+    }
+
+    .menu-item:hover,
+    .menu-item.active {
+      background: rgba(255, 255, 255, 0.1);
+      color: #fff;
+      border-left-color: var(--saffron)
+    }
+
+    .menu-item .icon {
+      font-size: 16px;
+      width: 20px;
+      text-align: center
+    }
+
+    .menu-item span {
+      font-size: 13px;
+      font-weight: 500
+    }
+
+    .menu-badge {
+      margin-left: auto;
+      background: var(--saffron);
+      color: #fff;
+      font-size: 10px;
+      font-weight: 700;
+      padding: 1px 7px;
+      border-radius: 10px
+    }
+
+    .logout-btn {
+      margin: 12px;
+      padding: 8px;
+      background: rgba(255, 255, 255, 0.1);
+      color: #fff;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 12px;
+      font-weight: 600;
+      transition: background 0.2s;
+      width: calc(100% - 24px)
+    }
+
+    .logout-btn:hover {
+      background: rgba(255, 0, 0, 0.3)
+    }
+
+    .sidebar-footer {
+      padding: 12px 16px;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      font-size: 11px;
+      color: #888;
+      text-align: center
+    }
+
+    .main {
+      margin-left: var(--sidebar);
+      flex: 1;
+      display: flex;
+      flex-direction: column
+    }
+
+    .topbar {
+      background: #fff;
+      padding: 10px 20px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08)
+    }
+
+    .topbar h1 {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--navy)
+    }
+
+    .view-site-btn {
+      background: var(--saffron);
+      color: #fff;
+      padding: 6px 14px;
+      border-radius: 4px;
+      text-decoration: none;
+      font-size: 12px;
+      font-weight: 600
+    }
+
+    .content {
+      padding: 20px;
+      flex: 1
+    }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+      margin-bottom: 20px
+    }
+
+    .stat-card {
+      background: #fff;
+      border-radius: 8px;
+      padding: 16px;
+      border: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05)
+    }
+
+    .stat-icon {
+      width: 44px;
+      height: 44px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      flex-shrink: 0
+    }
+
+    .stat-info .num {
+      font-size: 24px;
+      font-weight: 700;
+      line-height: 1
+    }
+
+    .stat-info .lbl {
+      font-size: 11px;
+      color: #888;
+      margin-top: 2px
+    }
+
+    .section {
+      background: #fff;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      overflow: hidden;
+      margin-bottom: 20px;
+      box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
+      display: none
+    }
+
+    .section.active {
+      display: block
+    }
+
+    .section-header {
+      background: linear-gradient(90deg, var(--navy), #001F5B);
+      color: #fff;
+      padding: 12px 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between
+    }
+
+    .section-header h2 {
+      font-size: 15px;
+      font-weight: 700
+    }
+
+    .btn {
+      padding: 7px 16px;
+      border-radius: 4px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      border: none;
+      transition: opacity 0.2s
+    }
+
+    .btn:hover {
+      opacity: 0.85
+    }
+
+    .btn-primary {
+      background: var(--saffron);
+      color: #fff
+    }
+
+    .btn-success {
+      background: var(--green);
+      color: #fff
+    }
+
+    .btn-danger {
+      background: var(--red);
+      color: #fff
+    }
+
+    .btn-secondary {
+      background: #666;
+      color: #fff
+    }
+
+    .btn-sm {
+      padding: 4px 10px;
+      font-size: 11px
+    }
+
+    .tbl-wrap {
+      overflow-x: auto
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse
+    }
+
+    th {
+      background: #F5F7FF;
+      color: var(--navy);
+      padding: 9px 12px;
+      text-align: left;
+      font-size: 12px;
+      font-weight: 700;
+      border-bottom: 2px solid var(--border)
+    }
+
+    td {
+      padding: 8px 12px;
+      border-bottom: 1px solid #f0f0f0;
+      font-size: 13px;
+      vertical-align: middle
+    }
+
+    tr:hover td {
+      background: #FFFBF5
+    }
+
+    .badge {
+      font-size: 10px;
+      font-weight: 700;
+      padding: 2px 8px;
+      border-radius: 10px;
+      display: inline-block
+    }
+
+    .badge-new {
+      background: #FFEBEE;
+      color: var(--red)
+    }
+
+    .badge-hot {
+      background: #FFF3E0;
+      color: var(--saffron)
+    }
+
+    .badge-imp {
+      background: #E8F5E9;
+      color: var(--green)
+    }
+
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.5);
+      z-index: 200;
+      display: none;
+      align-items: center;
+      justify-content: center
+    }
+
+    .modal-overlay.open {
+      display: flex
+    }
+
+    .modal {
+      background: #fff;
+      border-radius: 8px;
+      width: 700px;
+      max-width: 95vw;
+      max-height: 90vh;
+      overflow-y: auto;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2)
+    }
+
+    .modal-header {
+      padding: 14px 18px;
+      background: var(--navy);
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0
+    }
+
+    .modal-header h3 {
+      font-size: 15px;
+      font-weight: 700
+    }
+
+    .modal-close {
+      background: none;
+      border: none;
+      color: #fff;
+      font-size: 20px;
+      cursor: pointer;
+      line-height: 1
+    }
+
+    .modal-body {
+      padding: 18px
+    }
+
+    .modal-footer {
+      padding: 12px 18px;
+      border-top: 1px solid var(--border);
+      display: flex;
+      justify-content: flex-end;
+      gap: 8px;
+      background: #fafafa
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 4px
+    }
+
+    .form-group.full {
+      grid-column: 1/-1
+    }
+
+    label {
+      font-size: 12px;
+      font-weight: 600;
+      color: #444
+    }
+
+    input,
+    select,
+    textarea {
+      padding: 8px 10px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      font-size: 13px;
+      font-family: inherit;
+      width: 100%;
+      outline: none;
+      transition: border 0.2s
+    }
+
+    input:focus,
+    select:focus,
+    textarea:focus {
+      border-color: var(--navy)
+    }
+
+    textarea {
+      resize: vertical;
+      min-height: 80px
+    }
+
+    .dynamic-section {
+      background: #F8F9FF;
+      border: 1px solid #E0E4FF;
+      border-radius: 6px;
+      padding: 12px;
+      margin-bottom: 12px
+    }
+
+    .dynamic-section h4 {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--navy);
+      margin-bottom: 8px
+    }
+
+    .dynamic-row {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 6px;
+      align-items: center
+    }
+
+    .dynamic-row input {
+      flex: 1
+    }
+
+    .remove-row {
+      background: var(--red);
+      color: #fff;
+      border: none;
+      padding: 5px 10px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 12px;
+      flex-shrink: 0
+    }
+
+    .add-row-btn {
+      background: #E8EAF6;
+      color: var(--navy);
+      border: none;
+      padding: 5px 12px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 12px;
+      font-weight: 600;
+      margin-top: 4px
+    }
+
+    .empty-state {
+      padding: 40px;
+      text-align: center;
+      color: #aaa
+    }
+
+    .empty-state .icon {
+      font-size: 40px;
+      margin-bottom: 10px
+    }
+
+    .toast {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      padding: 10px 18px;
+      border-radius: 6px;
+      color: #fff;
+      font-weight: 600;
+      font-size: 13px;
+      z-index: 999;
+      opacity: 0;
+      transition: opacity 0.3s;
+      pointer-events: none
+    }
+
+    .toast.show {
+      opacity: 1
+    }
+
+    .toast.success {
+      background: #138808
+    }
+
+    .toast.error {
+      background: #CC0000
+    }
+
+    .admin-info {
+      font-size: 12px;
+      color: #aaa;
+      text-align: center;
+      padding: 8px 16px
+    }
+
+    @media(max-width:900px) {
+      .stats-grid {
+        grid-template-columns: 1fr 1fr
+      }
+
+      .form-grid {
+        grid-template-columns: 1fr
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- ── LOGIN SCREEN ───────────────────────────────────────── -->
+  <div class="login-screen" id="loginScreen">
+    <div class="login-box">
+      <div class="logo">🇮🇳</div>
+      <h2>SarkariNaukri.in</h2>
+      <p>Admin Panel – Login Karo</p>
+      <div class="login-error" id="loginError">❌ Galat username ya password!</div>
+      <div class="login-field">
+        <label>Username</label>
+        <input type="text" id="loginUser" placeholder="admin" autocomplete="username">
+      </div>
+      <div class="login-field">
+        <label>Password</label>
+        <input type="password" id="loginPass" placeholder="••••••••" autocomplete="current-password">
+      </div>
+      <button class="login-btn" onclick="doLogin()">🔐 Login Karo</button>
+    </div>
+  </div>
+
+  <!-- ── MAIN LAYOUT ───────────────────────────────────────── -->
+  <div class="layout" id="mainLayout">
+    <aside class="sidebar">
+      <div class="sidebar-logo">
+        <h2>🇮🇳 SarkariNaukri</h2>
+        <p>Admin Panel</p>
+      </div>
+      <nav class="sidebar-menu">
+        <div class="menu-item active" onclick="showSection('dashboard',this)">
+          <span class="icon">📊</span><span>Dashboard</span>
+        </div>
+        <div class="menu-item" onclick="showSection('jobs',this)">
+          <span class="icon">📋</span><span>Sarkari Jobs</span>
+          <span class="menu-badge" id="badge-jobs">0</span>
+        </div>
+        <div class="menu-item" onclick="showSection('admitcards',this)">
+          <span class="icon">🎫</span><span>Admit Cards</span>
+          <span class="menu-badge" id="badge-admitcards">0</span>
+        </div>
+        <div class="menu-item" onclick="showSection('results',this)">
+          <span class="icon">📊</span><span>Results</span>
+          <span class="menu-badge" id="badge-results">0</span>
+        </div>
+        <div class="menu-item" onclick="showSection('answerkeys',this)">
+          <span class="icon">🗝️</span><span>Answer Keys</span>
+          <span class="menu-badge" id="badge-answerkeys">0</span>
+        </div>
+      </nav>
+      <div class="admin-info" id="adminInfo">👤 admin</div>
+      <button class="logout-btn" onclick="doLogout()">🚪 Logout</button>
+      <div class="sidebar-footer">SarkariNaukri.in © 2026</div>
+    </aside>
+
+    <div class="main">
+      <div class="topbar">
+        <h1 id="pageTitle">📊 Dashboard</h1>
+        <a href="/" target="_blank" class="view-site-btn">🌐 View Site</a>
+      </div>
+      <div class="content">
+
+        <!-- DASHBOARD -->
+        <div id="sec-dashboard" class="section active">
+          <div class="stats-grid">
+            <div class="stat-card">
+              <div class="stat-icon" style="background:#E8F0FE">📋</div>
+              <div class="stat-info">
+                <div class="num" id="count-jobs">0</div>
+                <div class="lbl">Total Jobs</div>
+              </div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-icon" style="background:#E8F5E9">🎫</div>
+              <div class="stat-info">
+                <div class="num" id="count-admitcards">0</div>
+                <div class="lbl">Admit Cards</div>
+              </div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-icon" style="background:#FFEBEE">📊</div>
+              <div class="stat-info">
+                <div class="num" id="count-results">0</div>
+                <div class="lbl">Results</div>
+              </div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-icon" style="background:#FFF3E0">🗝️</div>
+              <div class="stat-info">
+                <div class="num" id="count-answerkeys">0</div>
+                <div class="lbl">Answer Keys</div>
+              </div>
+            </div>
+          </div>
+          <div
+            style="background:#fff;border-radius:8px;border:1px solid var(--border);padding:30px;text-align:center;color:#666">
+            <div style="font-size:48px;margin-bottom:12px">👈</div>
+            <div style="font-size:16px;font-weight:700;color:var(--navy)">Sidebar se section select karo</div>
+            <div style="font-size:13px;margin-top:6px">Jobs, Admit Cards, Results, Answer Keys manage karo</div>
+          </div>
+        </div>
+
+        <!-- JOBS -->
+        <div id="sec-jobs" class="section">
+          <div class="section-header">
+            <h2>📋 Sarkari Jobs</h2>
+            <button class="btn btn-primary" onclick="openModal('jobs')">+ Naya Job Add Karo</button>
+          </div>
+          <div class="tbl-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>Title</th>
+                  <th>Organization</th>
+                  <th>Posts</th>
+                  <th>Last Date</th>
+                  <th>Tag</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="tbl-jobs"></tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- ADMIT CARDS -->
+        <div id="sec-admitcards" class="section">
+          <div class="section-header" style="background:linear-gradient(90deg,#138808,#0D6606)">
+            <h2>🎫 Admit Cards</h2>
+            <button class="btn btn-primary" onclick="openModal('admitcards')">+ Naya Add Karo</button>
+          </div>
+          <div class="tbl-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>Exam Name</th>
+                  <th>Organization</th>
+                  <th>Exam Date</th>
+                  <th>Link</th>
+                  <th>Tag</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="tbl-admitcards"></tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- RESULTS -->
+        <div id="sec-results" class="section">
+          <div class="section-header" style="background:linear-gradient(90deg,#CC0000,#AA0000)">
+            <h2>📊 Results</h2>
+            <button class="btn btn-primary" onclick="openModal('results')">+ Naya Add Karo</button>
+          </div>
+          <div class="tbl-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>Exam Name</th>
+                  <th>Organization</th>
+                  <th>Result Date</th>
+                  <th>Link</th>
+                  <th>Tag</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="tbl-results"></tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- ANSWER KEYS -->
+        <div id="sec-answerkeys" class="section">
+          <div class="section-header" style="background:linear-gradient(90deg,#FF6B00,#E05A00)">
+            <h2>🗝️ Answer Keys</h2>
+            <button class="btn btn-primary" onclick="openModal('answerkeys')">+ Nayi Add Karo</button>
+          </div>
+          <div class="tbl-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>Exam Name</th>
+                  <th>Organization</th>
+                  <th>Key Date</th>
+                  <th>Link</th>
+                  <th>Tag</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="tbl-answerkeys"></tbody>
+            </table>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL -->
+  <div class="modal-overlay" id="modal">
+    <div class="modal">
+      <div class="modal-header">
+        <h3 id="modal-title">Add Entry</h3>
+        <button class="modal-close" onclick="closeModal()">✕</button>
+      </div>
+      <div class="modal-body" id="modal-body"></div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" onclick="closeModal()">Cancel</button>
+        <button class="btn btn-success" onclick="saveEntry()">💾 Save Karo</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="toast" id="toast"></div>
+
+  <script>
+    let TOKEN = sessionStorage.getItem('adminToken') || ''; let editingId = null, editingType = null;
+
+    // ── AUTH ──────────────────────────────────────────────────
+    async function doLogin() {
+      const username = document.getElementById('loginUser').value.trim();
+      const password = document.getElementById('loginPass').value.trim();
+      if (!username || !password) { showLoginError('Username aur password dono bharo!'); return; }
+
+      const res = await fetch('/api/admin/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ username, password })
+      }).then(r => r.json()).catch(() => ({ success: false }));
+
+      if (res.success) {
+        TOKEN = res.token;
+        sessionStorage.setItem('adminToken', TOKEN); showAdmin();
+      } else {
+        showLoginError(res.message || 'Galat username ya password!');
+      }
+    }
+
+    function showLoginError(msg) {
+      const el = document.getElementById('loginError');
+      el.textContent = '❌ ' + msg;
+      el.style.display = 'block';
+      setTimeout(() => el.style.display = 'none', 3000);
+    }
+
+    async function checkAuth() {
+      if (!TOKEN) return showLogin();
+      const res = await fetch('/api/admin/verify', {
+        headers: { 'x-admin-token': TOKEN }
+      }).then(r => r.json()).catch(() => ({ valid: false }));
+      res.valid ? showAdmin() : showLogin();
+    }
+
+    function showLogin() {
+      document.getElementById('loginScreen').classList.remove('hidden');
+      document.getElementById('mainLayout').classList.remove('visible');
+    }
+
+    function showAdmin() {
+      document.getElementById('loginScreen').classList.add('hidden');
+      document.getElementById('mainLayout').classList.add('visible');
+      document.getElementById('adminInfo').textContent = '👤 ' + (document.getElementById('loginUser').value || 'admin');
+      init();
+    }
+
+    async function doLogout() {
+      await fetch('/api/admin/logout', { method: 'POST', headers: { 'x-admin-token': TOKEN } });
+      sessionStorage.removeItem('adminToken'); TOKEN = '';
+      showLogin();
+      document.getElementById('loginUser').value = '';
+      document.getElementById('loginPass').value = '';
+    }
+
+    // Enter key login
+    document.getElementById('loginPass').addEventListener('keydown', e => { if (e.key === 'Enter') doLogin(); });
+    document.getElementById('loginUser').addEventListener('keydown', e => { if (e.key === 'Enter') document.getElementById('loginPass').focus(); });
+
+    // ── SECTION ───────────────────────────────────────────────
+    function showSection(name, el) {
+      document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+      document.querySelectorAll('.menu-item').forEach(m => m.classList.remove('active'));
+      document.getElementById('sec-' + name).classList.add('active');
+      el.classList.add('active');
+      const titles = { dashboard: '📊 Dashboard', jobs: '📋 Sarkari Jobs', admitcards: '🎫 Admit Cards', results: '📊 Results', answerkeys: '🗝️ Answer Keys' };
+      document.getElementById('pageTitle').textContent = titles[name];
+      if (name !== 'dashboard') loadTable(name);
+    }
+
+    // ── API ───────────────────────────────────────────────────
+    async function api(method, url, body) {
+      const opts = { method, headers: { 'Content-Type': 'application/json', 'x-admin-token': TOKEN } };
+      if (body) opts.body = JSON.stringify(body);
+      const res = await fetch(url, opts);
+      if (res.status === 401) { doLogout(); return {}; }
+      return res.json();
+    }
+
+    // ── TABLE ─────────────────────────────────────────────────
+    async function loadTable(type) {
+      const items = await fetch('/api/' + type).then(r => r.json()).catch(() => []);
+      document.getElementById('badge-' + type).textContent = items.length;
+      if (document.getElementById('count-' + type)) document.getElementById('count-' + type).textContent = items.length;
+      const tbody = document.getElementById('tbl-' + type);
+      if (!items.length) {
+        tbody.innerHTML = '<tr><td colspan="7"><div class="empty-state"><div class="icon">📭</div><div>Abhi koi entry nahi. Add karo!</div></div></td></tr>';
+        return;
+      }
+      tbody.innerHTML = items.map((item, i) => {
+        const tag = item.tag || 'NEW';
+        const bc = tag === 'HOT' ? 'badge-hot' : tag === 'IMP' ? 'badge-imp' : 'badge-new';
+        let cols = '';
+        if (type === 'jobs') cols = `<td>${item.title || '-'}</td><td>${item.org || '-'}</td><td>${item.total_posts || '-'}</td><td>${item.last_date || '-'}</td>`;
+        else if (type === 'admitcards') cols = `<td>${item.title || '-'}</td><td>${item.org || '-'}</td><td>${item.exam_date || '-'}</td><td>${item.download_link ? '<a href="' + item.download_link + '" target="_blank">Link ↗</a>' : '-'}</td>`;
+        else if (type === 'results') cols = `<td>${item.title || '-'}</td><td>${item.org || '-'}</td><td>${item.result_date || '-'}</td><td>${item.result_link ? '<a href="' + item.result_link + '" target="_blank">Link ↗</a>' : '-'}</td>`;
+        else if (type === 'answerkeys') cols = `<td>${item.title || '-'}</td><td>${item.org || '-'}</td><td>${item.key_date || '-'}</td><td>${item.download_link ? '<a href="' + item.download_link + '" target="_blank">Link ↗</a>' : '-'}</td>`;
+        return `<tr><td>${i + 1}</td>${cols}<td><span class="badge ${bc}">${tag}</span></td>
+      <td>
+        <button class="btn btn-secondary btn-sm" onclick="editEntry('${type}','${item.id}')">✏️ Edit</button>
+        <button class="btn btn-danger btn-sm" style="margin-left:4px" onclick="deleteEntry('${type}','${item.id}')">🗑️</button>
+      </td></tr>`;
+      }).join('');
+    }
+
+    // ── FORMS ─────────────────────────────────────────────────
+    function getFormHTML(type, item) {
+      const v = item || {};
+      const tagSel = (val) => ['NEW', 'HOT', 'IMP'].map(t => `<option value="${t}" ${(v.tag || 'NEW') === t ? 'selected' : ''}>${t}</option>`).join('');
+
+      if (type === 'jobs') return `
+    <div class="form-grid">
+      <div class="form-group full"><label>Job Title *</label><input id="f-title" value="${v.title || ''}" placeholder="e.g. SSC CGL 2025"></div>
+      <div class="form-group"><label>Organization *</label><input id="f-org" value="${v.org || ''}" placeholder="e.g. SSC"></div>
+      <div class="form-group"><label>State / Level</label><input id="f-state" value="${v.state || ''}" placeholder="e.g. All India"></div>
+      <div class="form-group"><label>Total Posts *</label><input id="f-total_posts" value="${v.total_posts || ''}" placeholder="e.g. 17,727"></div>
+      <div class="form-group"><label>Category</label><select id="f-category">${['Jobs', 'Bank', 'Railway', 'Police', 'Defence', 'SSC', 'Teaching', 'Medical', 'Engineering', 'State'].map(c => `<option value="${c}" ${(v.category || 'Jobs') === c ? 'selected' : ''}>${c}</option>`).join('')}</select></div>
+      <div class="form-group"><label>Tag</label><select id="f-tag">${tagSel(v.tag)}</select></div>
+      <div class="form-group"><label>Eligibility</label><input id="f-eligibility" value="${v.eligibility || ''}" placeholder="e.g. Graduate"></div>
+      <div class="form-group"><label>Age Limit</label><input id="f-age" value="${v.age || ''}" placeholder="e.g. 18-32 Yrs"></div>
+      <div class="form-group"><label>Last Date</label><input id="f-last_date" value="${v.last_date || ''}" placeholder="e.g. 30 May 2026"></div>
+      <div class="form-group"><label>Apply URL</label><input id="f-apply_url" value="${v.apply_url || ''}" placeholder="https://..."></div>
+      <div class="form-group"><label>Notification PDF URL</label><input id="f-notification_url" value="${v.notification_url || ''}" placeholder="https://..."></div>
+      <div class="form-group"><label>Official Website</label><input id="f-official_url" value="${v.official_url || ''}" placeholder="https://..."></div>
+      <div class="form-group full"><label>Description</label><textarea id="f-description">${v.description || ''}</textarea></div>
+    </div>
+    <div class="dynamic-section"><h4>📅 Important Dates</h4>
+      <div id="dyn-dates">${(v.important_dates || [{ label: 'Apply Start', value: '' }, { label: 'Apply Last Date', value: '' }, { label: 'Exam Date', value: '' }]).map(d => `<div class="dynamic-row"><input placeholder="Label" value="${d.label}"><input placeholder="Date" value="${d.value}"><button class="remove-row" onclick="this.parentNode.remove()">✕</button></div>`).join('')}</div>
+      <button class="add-row-btn" onclick="addRow('dyn-dates')">+ Add Row</button>
+    </div>
+    <div class="dynamic-section"><h4>💰 Application Fee</h4>
+      <div id="dyn-fee">${(v.fee || [{ label: 'General/OBC/EWS', value: '' }, { label: 'SC/ST', value: '' }]).map(f => `<div class="dynamic-row"><input placeholder="Category" value="${f.label}"><input placeholder="Amount" value="${f.value}"><button class="remove-row" onclick="this.parentNode.remove()">✕</button></div>`).join('')}</div>
+      <button class="add-row-btn" onclick="addRow('dyn-fee')">+ Add Row</button>
+    </div>
+    <div class="dynamic-section"><h4>📋 Vacancy</h4>
+      <div id="dyn-vacancy">${(v.vacancy || []).map(vv => `<div class="dynamic-row"><input placeholder="Post" value="${vv.label}"><input placeholder="Count" value="${vv.value}"><button class="remove-row" onclick="this.parentNode.remove()">✕</button></div>`).join('')}</div>
+      <button class="add-row-btn" onclick="addRow('dyn-vacancy')">+ Add Row</button>
+    </div>`;
+
+      if (type === 'admitcards') return `<div class="form-grid">
+    <div class="form-group full"><label>Exam Name *</label><input id="f-title" value="${v.title || ''}" placeholder="e.g. SSC CPO 2025 Admit Card"></div>
+    <div class="form-group"><label>Organization</label><input id="f-org" value="${v.org || ''}" placeholder="e.g. SSC"></div>
+    <div class="form-group"><label>Exam Date</label><input id="f-exam_date" value="${v.exam_date || ''}" placeholder="e.g. 15 June 2026"></div>
+    <div class="form-group"><label>Tag</label><select id="f-tag">${tagSel(v.tag)}</select></div>
+    <div class="form-group full"><label>Download Link *</label><input id="f-download_link" value="${v.download_link || ''}" placeholder="https://..."></div>
+    <div class="form-group full"><label>Official Website</label><input id="f-official_url" value="${v.official_url || ''}" placeholder="https://..."></div>
+    <div class="form-group full"><label>Description</label><textarea id="f-description">${v.description || ''}</textarea></div>
+  </div>`;
+
+      if (type === 'results') return `<div class="form-grid">
+    <div class="form-group full"><label>Exam Name *</label><input id="f-title" value="${v.title || ''}" placeholder="e.g. SSC GD Result 2025"></div>
+    <div class="form-group"><label>Organization</label><input id="f-org" value="${v.org || ''}" placeholder="e.g. SSC"></div>
+    <div class="form-group"><label>Result Date</label><input id="f-result_date" value="${v.result_date || ''}" placeholder="e.g. 28 April 2026"></div>
+    <div class="form-group"><label>Tag</label><select id="f-tag">${tagSel(v.tag)}</select></div>
+    <div class="form-group full"><label>Result Link *</label><input id="f-result_link" value="${v.result_link || ''}" placeholder="https://..."></div>
+    <div class="form-group full"><label>Scorecard Link</label><input id="f-scorecard_link" value="${v.scorecard_link || ''}" placeholder="https://..."></div>
+    <div class="form-group full"><label>Description</label><textarea id="f-description">${v.description || ''}</textarea></div>
+  </div>`;
+
+      if (type === 'answerkeys') return `<div class="form-grid">
+    <div class="form-group full"><label>Exam Name *</label><input id="f-title" value="${v.title || ''}" placeholder="e.g. SSC CHSL Answer Key 2025"></div>
+    <div class="form-group"><label>Organization</label><input id="f-org" value="${v.org || ''}" placeholder="e.g. SSC"></div>
+    <div class="form-group"><label>Key Date</label><input id="f-key_date" value="${v.key_date || ''}" placeholder="e.g. 28 April 2026"></div>
+    <div class="form-group"><label>Tag</label><select id="f-tag">${tagSel(v.tag)}</select></div>
+    <div class="form-group full"><label>Download Link *</label><input id="f-download_link" value="${v.download_link || ''}" placeholder="https://..."></div>
+    <div class="form-group full"><label>Description</label><textarea id="f-description">${v.description || ''}</textarea></div>
+  </div>`;
+    }
+
+    function addRow(id) {
+      const d = document.createElement('div');
+      d.className = 'dynamic-row';
+      d.innerHTML = '<input placeholder="Label"><input placeholder="Value"><button class="remove-row" onclick="this.parentNode.remove()">✕</button>';
+      document.getElementById(id).appendChild(d);
+    }
+
+    function gv(id) { const e = document.getElementById(id); return e ? e.value.trim() : ''; }
+    function getDyn(id) {
+      if (!document.getElementById(id)) return [];
+      return Array.from(document.getElementById(id).children)
+        .map(r => { const i = r.querySelectorAll('input'); return { label: i[0]?.value.trim() || '', value: i[1]?.value.trim() || '' }; })
+        .filter(r => r.label);
+    }
+
+    function collectForm(type) {
+      const base = { title: gv('f-title'), org: gv('f-org'), tag: gv('f-tag'), description: gv('f-description'), official_url: gv('f-official_url') };
+      if (type === 'jobs') return {
+        ...base, state: gv('f-state'), total_posts: gv('f-total_posts'), category: gv('f-category'),
+        eligibility: gv('f-eligibility'), age: gv('f-age'), last_date: gv('f-last_date'),
+        apply_url: gv('f-apply_url'), notification_url: gv('f-notification_url'),
+        important_dates: getDyn('dyn-dates'), fee: getDyn('dyn-fee'), vacancy: getDyn('dyn-vacancy'),
+        post_date: new Date().toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' })
+      };
+      if (type === 'admitcards') return { ...base, exam_date: gv('f-exam_date'), download_link: gv('f-download_link') };
+      if (type === 'results') return { ...base, result_date: gv('f-result_date'), result_link: gv('f-result_link'), scorecard_link: gv('f-scorecard_link') };
+      if (type === 'answerkeys') return { ...base, key_date: gv('f-key_date'), download_link: gv('f-download_link') };
+    }
+
+    function openModal(type, item) {
+      editingType = type; editingId = item ? item.id : null;
+      const titles = { jobs: '📋 Job', admitcards: '🎫 Admit Card', results: '📊 Result', answerkeys: '🗝️ Answer Key' };
+      document.getElementById('modal-title').textContent = (editingId ? 'Edit ' : 'Naya ') + titles[type];
+      document.getElementById('modal-body').innerHTML = getFormHTML(type, item);
+      document.getElementById('modal').classList.add('open');
+    }
+    function closeModal() { document.getElementById('modal').classList.remove('open'); editingId = null; editingType = null; }
+
+    async function saveEntry() {
+      const formData = collectForm(editingType);
+      if (!formData.title) { showToast('Title required hai!', 'error'); return; }
+      const res = editingId
+        ? await api('PUT', '/api/' + editingType + '/' + editingId, formData)
+        : await api('POST', '/api/' + editingType, formData);
+      if (res.success) { showToast('✅ Save ho gaya!', 'success'); closeModal(); loadTable(editingType); }
+      else showToast('❌ Error! Try again.', 'error');
+    }
+
+    async function editEntry(type, id) {
+      const item = await fetch('/api/' + type + '/' + id).then(r => r.json());
+      openModal(type, item);
+    }
+
+    async function deleteEntry(type, id) {
+      if (!confirm('Delete karna chahte ho?')) return;
+      const res = await api('DELETE', '/api/' + type + '/' + id);
+      if (res.success) { showToast('🗑️ Delete ho gaya!', 'success'); loadTable(type); }
+    }
+
+    function showToast(msg, type) {
+      const t = document.getElementById('toast');
+      t.textContent = msg; t.className = 'toast ' + type + ' show';
+      setTimeout(() => t.className = 'toast', 3000);
+    }
+
+    async function init() {
+      for (const type of ['jobs', 'admitcards', 'results', 'answerkeys']) {
+        const items = await fetch('/api/' + type).then(r => r.json()).catch(() => []);
+        document.getElementById('badge-' + type).textContent = items.length;
+        if (document.getElementById('count-' + type)) document.getElementById('count-' + type).textContent = items.length;
+      }
+    }
+
+    document.getElementById('modal').addEventListener('click', e => { if (e.target === document.getElementById('modal')) closeModal(); });
+
+    // Auto check auth on load
+    checkAuth();
+  </script>
+</body>
+
+</html>
